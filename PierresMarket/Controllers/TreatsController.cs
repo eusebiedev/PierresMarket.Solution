@@ -23,15 +23,16 @@ namespace PierresMarket.Controllers
       _db = db;
     }
 
+    [AllowAnonymous]
     public async Task<ActionResult> Index()
     {
       string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-      List<Treat> userTreats = _db.Treats
-                          .Where(entry => entry.User.Id == currentUser.Id)
-                          .Include(treat => treat.JoinEntities)
-                          .ToList();
-      return View(userTreats);
+      List<Treat> model = _db.Treats
+                              // .Where(entry => entry.User.Id == currentUser.Id)
+                              .Include(treat => treat.JoinEntities)
+                              .ToList();
+      return View(model);
     }
 
     public ActionResult Create()
@@ -56,7 +57,8 @@ namespace PierresMarket.Controllers
         return RedirectToAction("Index");
       }
     }
-
+    
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       Treat thisTreat = _db.Treats
