@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-namespace Treats.Controllers
+namespace PierresMarket.Controllers
 {
   [Authorize]
   public class TreatsController : Controller
@@ -29,7 +29,7 @@ namespace Treats.Controllers
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
       List<Treat> userTreats = _db.Treats
                           .Where(entry => entry.User.Id == currentUser.Id)
-                          .Include(treat => treat.Flavor)
+                          .Include(treat => treat.JoinEntities)
                           .ToList();
       return View(userTreats);
     }
