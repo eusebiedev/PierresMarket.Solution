@@ -93,7 +93,7 @@ namespace PierresMarket.Controllers
                               .Include(flavor => flavor.JoinEntities)
                               .ThenInclude(join => join.Treat)
                               .FirstOrDefault(flavors => flavors.FlavorId == id);
-      ViewBag.TreatId = new SelectList(_db.Treats, "Treatid", "TreatDescription");
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatDescription");
       return View(thisFlavor);
     }
 
