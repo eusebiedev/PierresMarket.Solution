@@ -2,11 +2,12 @@
 
 #### By _**Eusebie Siebenberg**_
 
-#### Indpendent Code Review project:
+#### Indpendent Code Review project: Build an MVC web application which shows best practices using Many to Many Relationships and Authentication with Identity. 
 
 ## Technologies Used
 
 * _C#_
+* _ASP.NET Core Identity_
 * _Entity Framework Core_
 * _MySQL Workbench_
 * _Razor_
@@ -17,7 +18,8 @@
 
 ## Description 
 
-
+Pierre's has a new business venture! This application is built to market their sweet and savory treats. The application should have user authentication. A user should be able to log in and log out. Only logged in users should have create, update, and delete functionality. All users should be able to have read functionality.
+There should be a many-to-many relationship between Treats and Flavors. A treat can have many flavors (such as sweet, savory, spicy, or creamy) and a flavor can have many treats. For instance, the "sweet" flavor could include chocolate croissants, cheesecake, and so on. A user should be able to navigate to a splash page that lists all treats and flavors. Users should be able to click on an individual treat or flavor to see all the treats/flavors that belong to it.
 
 ## Setup/Installation Requirements
 
@@ -29,7 +31,7 @@ obj
 bin
 appsettings.json
 ```
-4. Navigate to this project's production directory called "Factory" with $ `cd Factory`.
+4. Navigate to this project's production directory called "PierresMarket" with $ `cd PierresMarket`.
 5. Within the production directory create a new file called `appsettings.json` with $ `touch appsettings.json`.
 6. Within `appsettings.json`, paste in the following code, replacing `user-id`, and `password` with your own username and password.
 (remove square brackets when inputting your details):
