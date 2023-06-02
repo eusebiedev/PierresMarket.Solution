@@ -4,18 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using PierresMarket.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using System.Security.Claims;
-
 
 namespace PierresMarket.Controllers
 {
   public class FlavorsController : Controller
   {
     private readonly PierresMarketContext _db;
-
     public FlavorsController(PierresMarketContext db)
     {
       _db = db;
@@ -34,15 +28,15 @@ namespace PierresMarket.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Engineer engineer)
+    public ActionResult Create(Flavor flavor)
     {
       if (!ModelState.IsValid)
       {
-        return View(engineer);
+        return View(flavor);
       }
       else
       {
-      _db.Engineers.Add(engineer);
+      _db.Flavors.Add(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
       }
@@ -50,68 +44,68 @@ namespace PierresMarket.Controllers
 
     public ActionResult Details(int id)
     {
-      Engineer thisEngineer = _db.Engineers
-                                .Include(engineer => engineer.JoinEntities)
-                                .ThenInclude(join => join.Machine)
-                                .FirstOrDefault(engineer => engineer.EngineerId == id);
-      return View(thisEngineer);
+      Flavor thisFlavor = _db.Flavors
+                                .Include(flavor => flavor.JoinEntities)
+                                .ThenInclude(join => join.Treat)
+                                .FirstOrDefault(flavor => flavor.FlavorId == id);
+      return View(thisFlavor);
     }
 
     public ActionResult Edit(int id)
     {
-      Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
-      return View(thisEngineer);
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      return View(thisFlavor);
     }
 
     [HttpPost]
-    public ActionResult Edit(Engineer engineer)
+    public ActionResult Edit(Flavor flavor)
     {
       if (!ModelState.IsValid)
       {
-        return View(engineer);
+        return View(flavor);
       }
       else
-      _db.Engineers.Update(engineer);
+      _db.Flavors.Update(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddMachine(int id)
+    public ActionResult AddTreat(int id)
     {
-      Engineer thisEngineer = _db.Engineers
-                              .Include(engineer => engineer.JoinEntities)
-                              .ThenInclude(join => join.Machine)
-                              .FirstOrDefault(engineer => engineer.EngineerId == id);
-      ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "Name");
-      return View(thisEngineer);
+      Flavor thisFlavor = _db.Flavors
+                              .Include(flavor => flavor.JoinEntities)
+                              .ThenInclude(join => join.Treat)
+                              .FirstOrDefault(flavors => flavors.FlavorId == id);
+      ViewBag.TreatId = new SelectList(_db.Treats, "Treatid", "TreatDescription");
+      return View(thisFlavor);
     }
 
     [HttpPost]
-    public ActionResult AddMachine(Engineer engineer, int machineId)
+    public ActionResult AddTreat(Flavor flavor, int treatId)
     {
       #nullable enable
-      EngineerMachine? joinEntity = _db.EngineerMachines
-                                    .FirstOrDefault(join => (join.MachineId == machineId && join.EngineerId == engineer.EngineerId));
+      FlavorTreat? joinEntity = _db.FlavorTreats
+                                    .FirstOrDefault(join => (join.TreatId == treatId && join.FlavorId == flavor.FlavorId));
       #nullable disable
-      if (joinEntity == null && machineId != 0)
+      if (joinEntity == null && treatId != 0)
       {
-        _db.EngineerMachines.Add(new EngineerMachine() { MachineId = machineId, EngineerId = engineer.EngineerId });
+        _db.FlavorTreats.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavor.FlavorId});
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new { id = engineer.EngineerId });
+      return RedirectToAction("Details", new { id = flavor.FlavorId });
     }
 
     public ActionResult Delete(int id)
     {
-      Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
-      return View(thisEngineer);
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      return View(thisFlavor);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Engineer thisEngineer = _db.Engineers.FirstOrDefault(engineer => engineer.EngineerId == id);
-      _db.Engineers.Remove(thisEngineer);
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      _db.Flavors.Remove(thisFlavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -119,8 +113,8 @@ namespace PierresMarket.Controllers
     [HttpPost]
     public ActionResult DeleteJoin(int joinId)
     {
-      EngineerMachine joinEntry = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
-      _db.EngineerMachines.Remove(joinEntry);
+      FlavorTreat joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      _db.FlavorTreats.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
