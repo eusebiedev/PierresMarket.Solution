@@ -18,7 +18,7 @@
 
 ## Description 
 
-Pierre's has a new business venture! This application is built to market their sweet and savory treats. The application should have user authentication. A user should be able to log in and log out. Only logged in users should have create, update, and delete functionality. All users should be able to have read functionality.
+Pierre is back and has a new business venture! This application is built to market their sweet and savory treats. The application should have user authentication. A user should be able to log in and log out. Only logged in users should have create, update, and delete functionality. All users should be able to have read functionality.
 There should be a many-to-many relationship between Treats and Flavors. A treat can have many flavors (such as sweet, savory, spicy, or creamy) and a flavor can have many treats. For instance, the "sweet" flavor could include chocolate croissants, cheesecake, and so on. A user should be able to navigate to a splash page that lists all treats and flavors. Users should be able to click on an individual treat or flavor to see all the treats/flavors that belong to it.
 
 ## Setup/Installation Requirements
@@ -44,7 +44,7 @@ appsettings.json
 }
 ```
 7. Withing the production directory `PierresMarket`, run `dotnet ef database update` to instantiate the database.
-8. Within the production directory, run `dotnet watch run` in the command line to launch the application in development mode in a browser, and interact with the application.
+8. Within the production directory, run `dotnet watch run` in the command line to launch the application in development mode in a browser, and interact with the application creating flavors and treats and treats and flavors!
 
 ## Known Bugs 
 
