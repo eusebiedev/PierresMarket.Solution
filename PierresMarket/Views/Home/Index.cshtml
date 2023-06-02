@@ -33,4 +33,10 @@
 </ul>
 
 <hr>
-<p>Create an Account to Manage Pierre's Flavors & Treats <br>@Html.ActionLink("Register / Manage Account", "Index", "Account")</p>
+@if (User.Identity.IsAuthenticated)
+{
+  <p>@Html.ActionLink("Add a new flavor", "Create", "Flavors")</p>
+  <p>@Html.ActionLink("Add new treat", "Create", "Treats")</p>
+}
+<p>Create an Account to Manage Pierre's Flavors & Treats <br>@Html.ActionLink("Register / Manage", "Index", "Account")</p>
+<p>Once logged in, come back to the Home page, and access links to Add Flavors & Treats will be waiting for you!<br>Feel free to paruse our current Flavors and Treats for now, if any of our registered users have created them. </p>
