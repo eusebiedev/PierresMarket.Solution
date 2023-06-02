@@ -29,7 +29,7 @@ namespace PierresMarket.Controllers
       string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
       List<Treat> model = _db.Treats
-                              // .Where(entry => entry.User.Id == currentUser.Id)
+                              .Where(entry => entry.User.Id == currentUser.Id)
                               .Include(treat => treat.JoinEntities)
                               .ToList();
       return View(model);
@@ -41,7 +41,7 @@ namespace PierresMarket.Controllers
     }
     
     [HttpPost]
-    public async Task<ActionResult> Create(Treat treat, int FlavorId)
+    public async Task<ActionResult> Create(Treat treat, int TreatId)
     {
       if (!ModelState.IsValid)
       {
