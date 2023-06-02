@@ -28,10 +28,7 @@ namespace PierresMarket.Controllers
     {
       string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-      List<Flavor> model = _db.Flavors
-                          .Where(entry => entry.User.Id == currentUser.Id)
-                          .Include(flavor => flavor.JoinEntities)
-                          .ToList();
+      List<Flavor> model = _db.Flavors.ToList();
       return View(model);
     }
 
