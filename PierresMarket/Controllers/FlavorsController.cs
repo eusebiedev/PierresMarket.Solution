@@ -4,21 +4,34 @@ using Microsoft.AspNetCore.Mvc;
 using PierresMarket.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace PierresMarket.Controllers
 {
+  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly PierresMarketContext _db;
-    public FlavorsController(PierresMarketContext db)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public FlavorsController(UserManager<ApplicationUser> userManager, PierresMarketContext db)
     {
+      _userManager = userManager;
       _db = db;
     }
 
-    public ActionResult Index()
+    [AllowAnonymous]
+    public async Task<ActionResult> Index()
     {
+      string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
       List<Flavor> model = _db.Flavors
-                                .ToList();
+                          // .Where(entry => entry.User.Id == currentUser.Id)
+                          .Include(flavor => flavor.JoinEntities)
+                          .ToList();
       return View(model);
     }
 
@@ -28,7 +41,7 @@ namespace PierresMarket.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Flavor flavor)
+    public async Task<ActionResult> Create(Flavor flavor, int FlavorId)
     {
       if (!ModelState.IsValid)
       {
@@ -36,12 +49,16 @@ namespace PierresMarket.Controllers
       }
       else
       {
-      _db.Flavors.Add(flavor);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+        flavor.User = currentUser;
+        _db.Flavors.Add(flavor);
+        _db.SaveChanges();
+        return RedirectToAction("Index");
       }
     }
-
+    
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       Flavor thisFlavor = _db.Flavors

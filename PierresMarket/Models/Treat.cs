@@ -9,5 +9,6 @@ namespace PierresMarket.Models
     [Required(ErrorMessage = "The treat's description can't be empty!")]
     public string TreatDescription { get; set; }
     public List<FlavorTreat> JoinEntities { get; }
+    public ApplicationUser User { get; set; }
   }
 }
