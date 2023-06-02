@@ -2,36 +2,36 @@
   Layout = "_Layout";
 }
 
-@using Factory.Models;
+@using PierresMarket.Models;
 
-<h1>Welcome to Silly's Factory!</h1>
+<h1>Welcome to Pierre's Market of Sweets & Treats!</h1>
 
 <hr>
 
-<h4>Engineers</h4>
-@if (Model["engineers"].Length == 0)
+<h4>Flavors</h4>
+@if (Model["flavors"].Length == 0)
 {
-  <p>No Engineers have been added yet!</p>
+  <p>No flavors have been added yet!</p>
 } 
 <ul>
-  @foreach (Engineer engineer in Model["engineers"])
+  @foreach (Flavor flavor in Model["flavors"])
   {
-    <li>@Html.ActionLink(@engineer.Name, "Details", "Engineers", new { id = @engineer.EngineerId})</li>
+    <li>@Html.ActionLink(@flavor.FlavorDescription, "Details", "Flavors", new { id = @flavor.FlavorId})</li>
   }
 </ul>
 
-<h4>Machines</h4>
-@if (Model["machines"].Length == 0)
+<h4>Treats</h4>
+@if (Model["treats"].Length == 0)
 {
-  <p>No machines have been added yet!</p>
+  <p>No treats have been added yet!</p>
 } 
 <ul>
-  @foreach (Machine machine in Model["machines"])
+  @foreach (Treat treat in Model["treats"])
   {
-    <li>@Html.ActionLink(@machine.Name, "Details", "Machines", new { id = @machine.MachineId})</li>
+    <li>@Html.ActionLink(@treat.TreatDescription, "Details", "Treats", new { id = @treat.TreatId})</li>
   }
 </ul>
 
 <hr>
-<p>@Html.ActionLink("Manage engineers", "Index", "Engineers")</p>
-<p>@Html.ActionLink("Manage machines", "Index", "Machines")</p> 
+<p>@Html.ActionLink("Manage flavors", "Index", "Flavors")</p>
+<p>@Html.ActionLink("Manage treats", "Index", "Treats")</p> 
