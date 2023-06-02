@@ -2,18 +2,18 @@
   Layout = "_Layout";
 }
 
-@model Factory.Models.Machine
+@model PierresMarket.Models.Treat
 
-<h4>Edit this machine: @Html.DisplayFor(model => model.Name)</h4>
+<h4>Edit this treat: @Html.DisplayFor(model => model.TreatDescription)</h4>
 <div class="col">
-<p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
+<p>@Html.ValidationMessageFor(model => model.TreatDescription, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
 
   @using (Html.BeginForm())
   {
-    @Html.HiddenFor(model => model.MachineId)
+    @Html.HiddenFor(model => model.TreatId)
 
-    @Html.LabelFor(model => model.Name, new { htmlAttributes = new { @class = "form-label"}})
-    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control"}})
+    @Html.LabelFor(model => model.TreatDescription, new { htmlAttributes = new { @class = "form-label"}})
+    @Html.EditorFor(model => model.TreatDescription, new { htmlAttributes = new { @class = "form-control"}})
     <br>
     <input type="submit" value="Save" class="btn btn-primary btn-sm" />
   }
