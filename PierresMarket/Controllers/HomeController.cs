@@ -19,7 +19,7 @@ namespace PierresMarket.Controllers
       }
 
       [HttpGet("/")]
-      public async Task<ActionResult> Index()
+      public ActionResult Index()
       {
         Flavor[] flavors = _db.Flavors.ToArray();
         Treat[] treats = _db.Treats.ToArray();
