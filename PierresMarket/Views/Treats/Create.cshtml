@@ -2,19 +2,19 @@
   Layout = "_Layout";
 }
 
-@model Factory.Models.Machine
+@model PierresMarket.Models.Treat
 
-<h4>Add a new Machine</h4>
+<h4>Add a new Treat</h4>
 <div class="col">
-  <p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
+  <p>@Html.ValidationMessageFor(model => model.TreatDescription, "", new { @class = "text-danger", @style = "font-weight: 600;" })</p>
 
   @using (Html.BeginForm())
   {
-    @Html.LabelFor(model => model.Name, new { @class = "form-label"})
-    @Html.TextBoxFor(model => model.Name, new { @class = "form-control"})
+    @Html.LabelFor(model => model.TreatDescription, new { @class = "form-label"})
+    @Html.TextBoxFor(model => model.TreatDescription, new { @class = "form-control"})
     <br>
     <input type="submit" value="Add new machine" class="btn btn-primary btn-sm" />
   }
   <br>
-  <p>@Html.ActionLink("Show all machines", "Index")</p>
+  <p>@Html.ActionLink("Show all Treats", "Index")</p>
 </div>
