@@ -17,7 +17,7 @@ namespace Treats.Controllers
     private readonly PierresMarketContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public TreatsController(UserManager<ApplicationUser> userManager, RecipeBoxContext db)
+    public TreatsController(UserManager<ApplicationUser> userManager, PierresMarketContext db)
     {
       _userManager = userManager;
       _db = db;
@@ -68,59 +68,59 @@ namespace Treats.Controllers
 
     public ActionResult Edit(int id)
     {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
-      return View(thisMachine);
+      Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+      return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult Edit(Machine machine)
+    public ActionResult Edit(Treat treat)
     {
       if (!ModelState.IsValid)
       {
-          return View(machine);
+          return View(treat);
       }
       
-      _db.Machines.Update(machine);
+      _db.Treats.Update(treat);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
     
-    public ActionResult AddEngineer(int id)
+    public ActionResult AddFlavor(int id)
     {
-      Machine thisMachine = _db.Machines
-                            .Include(machine => machine.JoinEntities)
-                            .ThenInclude(join => join.Engineer)
-                            .FirstOrDefault(machines => machines.MachineId == id);
-      ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "Name");
-      return View(thisMachine);
+      Treat thisTreat = _db.Treats
+                            .Include(treat => treat.JoinEntities)
+                            .ThenInclude(join => join.Flavor)
+                            .FirstOrDefault(treats => treats.TreatId == id);
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorDescription");
+      return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult AddEngineer(Machine machine, int engineerId)
+    public ActionResult AddFlavor(Treat treat, int flavorId)
     {
       #nullable enable
-      EngineerMachine? joinEntity = _db.EngineerMachines
-                                    .FirstOrDefault(join => (join.EngineerId == engineerId && join.MachineId == machine.MachineId));
+      FlavorTreat? joinEntity = _db.FlavorTreats
+                                    .FirstOrDefault(join => (join.FlavorId == flavorId && join.TreatId == treat.TreatId));
       #nullable disable
-      if (joinEntity == null && engineerId != 0)
+      if (joinEntity == null && flavorId != 0)
       {
-        _db.EngineerMachines.Add(new EngineerMachine() { EngineerId = engineerId, MachineId = machine.MachineId });
+        _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = flavorId, TreatId = treat.TreatId });
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", new { id = machine.MachineId });
+      return RedirectToAction("Details", new { id = treat.TreatId });
     }
 
     public ActionResult Delete(int id)
     {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
-      return View(thisMachine);
+      Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+      return View(thisTreat);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-      Machine thisMachine = _db.Machines.FirstOrDefault(machine => machine.MachineId == id);
-      _db.Machines.Remove(thisMachine);
+      Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+      _db.Treats.Remove(thisTreat);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }  
@@ -128,8 +128,8 @@ namespace Treats.Controllers
     [HttpPost]
     public ActionResult DeleteJoin(int joinId)
     {
-      EngineerMachine joinEntry = _db.EngineerMachines.FirstOrDefault(entry => entry.EngineerMachineId == joinId);
-      _db.EngineerMachines.Remove(joinEntry);
+      FlavorTreat joinEntry = _db.FlavorTreats.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      _db.FlavorTreats.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
